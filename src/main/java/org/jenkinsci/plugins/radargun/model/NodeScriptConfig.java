@@ -2,14 +2,14 @@ package org.jenkinsci.plugins.radargun.model;
 
 
 /**
- * Base for RG master and slave exec scripts
+ * Base for RG main and worker exec scripts
  * 
  * @author vjuranek
  * 
  */
 public interface NodeScriptConfig extends RgScriptConfig {
 
-    public String getMasterHost();
+    public String getMainHost();
 
     public String getOutputPath();
 
@@ -23,7 +23,7 @@ public interface NodeScriptConfig extends RgScriptConfig {
     
     public String  getJavaOpts();
 
-    public NodeScriptConfig withMasterHost(String masterHostname);
+    public NodeScriptConfig withMainHost(String mainHostname);
 
     public NodeScriptConfig withOutput(String outputPath);
 
@@ -38,7 +38,7 @@ public interface NodeScriptConfig extends RgScriptConfig {
     public NodeScriptConfig withJavaOpts(String javaOpts);
 
     public static enum Options {
-        MASTER_HOST(new Option("-m", "getMasterHost", true, false)), 
+        MAIN_HOST(new Option("-m", "getMainHost", true, false)), 
         OUTPUT_PATH(new Option("-o", "getOutputPath", true, false)), 
         TAIL_FOLLOW(new Option("-t", "isTailFollow", false, false)), 
         WAIT(new Option("-w", "isWait", false, false)), 

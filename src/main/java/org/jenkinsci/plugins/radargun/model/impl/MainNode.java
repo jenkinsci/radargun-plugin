@@ -4,33 +4,33 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Represents RG master node and keeps it's configuration.
- * Currently not special configuration for master is needed.
+ * Represents RG main node and keeps it's configuration.
+ * Currently not special configuration for main is needed.
  * Kept as a marker class.
  * 
  * @author vjuranek
  *
  */
-public class MasterNode extends Node {
+public class MainNode extends Node {
     
-    public MasterNode(Node node) {
+    public MainNode(Node node) {
         super(node.getName(), node.getFqdn(), node.getJvmOptions(), node.getJavaProps(), node.getEnvVars(), node.getBeforeCmds(), node.getAfterCmds(), node.getGatherLogs());
     }
     
-    public MasterNode(String name, String fqdn) {
+    public MainNode(String name, String fqdn) {
         super(name, fqdn);
     }
 
-    public MasterNode(String hostname, String fqdn, String jvmOptions, Map<String, Object> javaProps, Map<String, String> envVars, List<String> beforeCmds, List<String> afterCmds, boolean gatherLogs) {
+    public MainNode(String hostname, String fqdn, String jvmOptions, Map<String, Object> javaProps, Map<String, String> envVars, List<String> beforeCmds, List<String> afterCmds, boolean gatherLogs) {
         super(hostname, fqdn, jvmOptions, javaProps, envVars, beforeCmds, afterCmds, gatherLogs);
     }
 
     @Override
-    public boolean isMaster() {
+    public boolean isMain() {
         return true;
     }
     
-    @Override //override to remove deprecation on master node
+    @Override //override to remove deprecation on main node
     public String getJvmOptions() {
         return super.getJvmOptions();
     }

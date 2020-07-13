@@ -56,7 +56,7 @@
             <f:textbox />
         </f:entry>
     
-        <f:entry title="Workspace path" field="workspacePath" description="Path to working directory on master and slaves">
+        <f:entry title="Workspace path" field="workspacePath" description="Path to working directory on main and workers">
             <f:textbox />
         </f:entry>
         

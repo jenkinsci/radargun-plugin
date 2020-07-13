@@ -27,24 +27,24 @@ Specifies RG scenario to be run. You can specify either path to the scenario or 
 Path to scenario as well as scenario itself can contain Jenkins and environment variables which get expanded before use.
 
 ==== Node list
-Probably the most complex part of the configuration, which specifies on which nodes RG master and slaves should run and also allows to adjust parameters used in RG scenarios.
+Probably the most complex part of the configuration, which specifies on which nodes RG main and workers should run and also allows to adjust parameters used in RG scenarios.
 It's in YAML format and can contain Jenkins and environment variables.
 Again, variables get expanded before use.
 
 
 Config can contain arbitrary sections, which are valid YAML components.
 The only mandatory section is node list, which is a list starting with name `nodes:`.
-Each list item is one node, the first one is RG master, remaining ones RG slaves.
+Each list item is one node, the first one is RG main, remaining ones RG workers.
 Each is represented by its hostname and optionally can contain map of other options.
 Following options can be used:
 
 * [line-through]#`jvmOpts`#: plain string containing JVM options like `-Xmx` etc. This option is *deprecated* and will be removed in the future. As of RG 3.0, JVM options can be specified direcly in RG scenarios and this options is strogly preffered!
 * `javaProps`: a map of java properties. Typically should be used for setting up parameters used in RG scenarios. Properties are entered without "-D" prefix, this will be added later on automatically.
 * `envVars`: a map of environment variables and their values, which should be exported to given host.
-* `fqdn`: master FQND or IP address, i.e. valid only for master node. If not specified, master hostname is used.
+* `fqdn`: main FQND or IP address, i.e. valid only for main node. If not specified, main hostname is used.
 * `beforeCmds`: list of commands which will be executed before RG script on given node is started
 * `afterCmds`: list of commands which will be executed after RG script on given node finishes
-* `gatherLogs`: `True`/`False` determines whether logs should (not) be gathered from given machine. Default is `True`. Logs are sent to Jenkins master during the tests, so in case of excessive logging the bandwidth of the line can be reduced, which can impat the tests.
+* `gatherLogs`: `True`/`False` determines whether logs should (not) be gathered from given machine. Default is `True`. Logs are sent to Jenkins main during the tests, so in case of excessive logging the bandwidth of the line can be reduced, which can impat the tests.
 
 As mentioned above, only valid YAML elements are allows.
 With one exception - YAML allows to define some elements are referred it later on.
@@ -54,10 +54,10 @@ Therefore, plugin allows to use `!include` directive, which allows to include ot
 File is inserted into the place where include directive is placed.
 As this is not a valid YAML directive, it should be used only when necessary a **last resort!**. 
 
-You can check https://github.com/jenkinsci/radargun-plugin/tree/master/src/test/resources[test resources folder], which contains examples of YAML config for tests. 
+You can check https://github.com/jenkinsci/radargun-plugin/tree/main/src/test/resources[test resources folder], which contains examples of YAML config for tests. 
 
 ==== Start script
-Specifies RG master and slave script to be used to starting and RG master and slaves.
+Specifies RG main and worker script to be used to starting and RG main and workers.
 This provides opportunity for the user to tweak command constructed by the plugin.
 It also allows to switch to other remote connection program, other than `ssh`.
 Usually it's sufficient to provide
@@ -71,8 +71,8 @@ This option is deprecated and will be probably removed in the future.
 
 
 === Job results
-If RadarGun fails, i.e. RG master returns non-zero return code, Jenkins will fail the build.
-Once RG master or slave is started, Jenkins will create a link on the build page on upper-left side, which contains master or slave log.
+If RadarGun fails, i.e. RG main returns non-zero return code, Jenkins will fail the build.
+Once RG main or worker is started, Jenkins will create a link on the build page on upper-left side, which contains main or worker log.
 If the build is in progress, logs are update automatically.
 Besides logs, RG plugin doesn't do any archiving of build artifacts.
 If you want to archive RG results, you needs to add `Archive the artifacts` post-build action and configure pattern which artifacts should be archived, usually `results/\**/*`.

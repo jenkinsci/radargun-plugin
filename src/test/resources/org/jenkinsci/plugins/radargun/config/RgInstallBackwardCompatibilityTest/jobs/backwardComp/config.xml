@@ -52,12 +52,12 @@ nodes:
 	&lt;&lt;: *defaults</nodes>
       </nodeSource>
       <scriptSource class="org.jenkinsci.plugins.radargun.config.TextScriptSource">
-        <masterScript>#!/bin/bash
+        <mainScript>#!/bin/bash
 set -x
-echo &quot;ssh $@&quot;</masterScript>
-        <slaveScript>#!/bin/bash
+echo &quot;ssh $@&quot;</mainScript>
+        <workerScript>#!/bin/bash
 set -x
-echo &quot;ssh $@&quot;</slaveScript>
+echo &quot;ssh $@&quot;</workerScript>
       </scriptSource>
       <workspacePath>$WORKSPACE</workspacePath>
       <pluginPath>plugin-path</pluginPath>

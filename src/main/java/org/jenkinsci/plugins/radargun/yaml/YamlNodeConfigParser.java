@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 import org.jenkinsci.plugins.radargun.RadarGunBuilder;
 import org.jenkinsci.plugins.radargun.config.NodeConfigParser;
-import org.jenkinsci.plugins.radargun.model.impl.MasterNode;
+import org.jenkinsci.plugins.radargun.model.impl.MainNode;
 import org.jenkinsci.plugins.radargun.model.impl.Node;
 import org.jenkinsci.plugins.radargun.model.impl.NodeList;
 import org.jenkinsci.plugins.radargun.util.ParseUtils;
@@ -33,8 +33,8 @@ import org.yaml.snakeyaml.constructor.SafeConstructor;
  * automatically.</li>
  * <li>{@code envVars} is a map of environment variables and their values, which should be exported to given host.</li>
  * </ul>
- * The contract is that the first node is master node. Master node can contain all element slave can contain, 
- * no special master configuration is currently supported.
+ * The contract is that the first node is main node. Main node can contain all element worker can contain, 
+ * no special main configuration is currently supported.
  * 
  * @author vjuranek
  * 
@@ -74,12 +74,12 @@ public class YamlNodeConfigParser implements NodeConfigParser {
         List<Map<String, Object>> nodesConf = (List<Map<String, Object>>) parsedConf.get(NODES_KEY);
         if (nodesConf.size() < 2)
             throw new IllegalArgumentException(
-                    "Wrong node configuration, at least two nodes (one master and one slave) required!");
+                    "Wrong node configuration, at least two nodes (one main and one worker) required!");
 
-        Map<String, Object> masterConf = nodesConf.remove(0);
-        Map.Entry<String, Object> masterHost = masterConf.entrySet().iterator().next();
+        Map<String, Object> mainConf = nodesConf.remove(0);
+        Map.Entry<String, Object> mainHost = mainConf.entrySet().iterator().next();
         @SuppressWarnings("unchecked")
-        MasterNode master = parseMasterNode(masterHost.getKey(), (Map<String, Object>) masterHost.getValue());
+        MainNode main = parseMainNode(mainHost.getKey(), (Map<String, Object>) mainHost.getValue());
 
         List<Node> nodes = new LinkedList<Node>();
         for (Map<String, Object> nodeConf : nodesConf) {
@@ -89,7 +89,7 @@ public class YamlNodeConfigParser implements NodeConfigParser {
             nodes.add(node);
         }
 
-        return new NodeList(master, nodes);
+        return new NodeList(main, nodes);
     }
 
     private Node parseNode(String name, Map<String, Object> nodeConfig) {
@@ -112,9 +112,9 @@ public class YamlNodeConfigParser implements NodeConfigParser {
         return new Node(name, fqdn, jvmOpts, javaProps, envVars, beforeCmds, afterCmds, gatherLogs);
     }
 
-    private MasterNode parseMasterNode(String name, Map<String, Object> nodeConfig) {
+    private MainNode parseMainNode(String name, Map<String, Object> nodeConfig) {
         Node node = parseNode(name, nodeConfig);
-        return new MasterNode(node);
+        return new MainNode(node);
     }
 
     private String expandIncludes(String orig) {

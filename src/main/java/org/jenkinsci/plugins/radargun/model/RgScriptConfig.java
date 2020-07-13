@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Base for representing RG exec scripts, i.e. scripts delivered by RG installation, not scripts provided by this plugin
- * or user. Currently these are especially shell scripts {@code master.sh} and {@code slave.sh}.
+ * or user. Currently these are especially shell scripts {@code main.sh} and {@code worker.sh}.
  * 
  * @author vjuranek
  * 

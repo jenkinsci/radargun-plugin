@@ -25,9 +25,9 @@ public class FileNodeConfigSource extends NodeConfigSource {
     }
     
     @Override
-    public NodeList getNodesList(VirtualChannel slaveChannel) throws IOException, InterruptedException {
+    public NodeList getNodesList(VirtualChannel workerChannel) throws IOException, InterruptedException {
         String nodeListPathRes = Resolver.doResolve(nodeListPath);
-        FilePath fp = new FilePath(slaveChannel, nodeListPathRes);
+        FilePath fp = new FilePath(workerChannel, nodeListPathRes);
         String nodes = Resolver.doResolve(fp.readToString());
         return ParseUtils.parseNodeList(nodes);
     }

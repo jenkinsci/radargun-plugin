@@ -15,8 +15,8 @@
   <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
   <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
   <clouds/>
-  <slaves>
-  </slaves>
+  <workers>
+  </workers>
   <quietPeriod>5</quietPeriod>
   <scmCheckoutRetryCount>0</scmCheckoutRetryCount>
   <views>
@@ -29,7 +29,7 @@
     </hudson.model.AllView>
   </views>
   <primaryView>All</primaryView>
-  <slaveAgentPort>0</slaveAgentPort>
+  <workerAgentPort>0</workerAgentPort>
   <label></label>
   <nodeProperties/>
   <globalNodeProperties/>

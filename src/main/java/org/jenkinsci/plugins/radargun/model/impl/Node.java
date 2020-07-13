@@ -48,7 +48,7 @@ public class Node {
         this.gatherLogs = gatherLogs;
     }
 
-    public boolean isMaster() {
+    public boolean isMain() {
         return false;
     }
     

@@ -4,25 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.jenkinsci.plugins.radargun.model.MasterScriptConfig;
+import org.jenkinsci.plugins.radargun.model.MainScriptConfig;
 
 /**
- * Represent RG master shell script, i.e. $RG_HOME/bin/msater.sh
+ * Represent RG main shell script, i.e. $RG_HOME/bin/msater.sh
  * 
  * @author vjuranek
  *
  */
-public class MasterShellScript extends NodeShellScript implements MasterScriptConfig {
+public class MainShellScript extends NodeShellScript implements MainScriptConfig {
 
-    public static final String MASTER_SCRIPT_NAME = "master.sh";
+    public static final String MAIN_SCRIPT_NAME = "main.sh";
     
     protected String configPath;
-    protected int slaveNumber;
+    protected int workerNumber;
     protected String reporterPath;
     
     @Override
     public String getScriptName() {
-        return MASTER_SCRIPT_NAME;
+        return MAIN_SCRIPT_NAME;
     }
     
     @Override
@@ -31,8 +31,8 @@ public class MasterShellScript extends NodeShellScript implements MasterScriptCo
     }
 
     @Override
-    public int getSlaveNumber() {
-        return slaveNumber;
+    public int getWorkerNumber() {
+        return workerNumber;
     }
 
     @Override
@@ -41,19 +41,19 @@ public class MasterShellScript extends NodeShellScript implements MasterScriptCo
     }
 
     @Override
-    public MasterScriptConfig withConfigPath(String configPath) {
+    public MainScriptConfig withConfigPath(String configPath) {
         this.configPath = configPath;
         return this;
     }
 
     @Override
-    public MasterScriptConfig withNumberOfSlaves(int slaveNumber) {
-        this.slaveNumber = slaveNumber;
+    public MainScriptConfig withNumberOfWorkers(int workerNumber) {
+        this.workerNumber = workerNumber;
         return this;
     }
 
     @Override
-    public MasterScriptConfig withReporter(String reporterPath) {
+    public MainScriptConfig withReporter(String reporterPath) {
         this.reporterPath = reporterPath;
         return this;
     }
@@ -65,7 +65,7 @@ public class MasterShellScript extends NodeShellScript implements MasterScriptCo
     
     private String[] optionToArray() {
         List<String> opts = new ArrayList<String>();
-        for(MasterScriptConfig.Options o : MasterScriptConfig.Options.values()) {
+        for(MainScriptConfig.Options o : MainScriptConfig.Options.values()) {
             opts.addAll(o.getOption().getCmdOption(this));
         }
         return opts.toArray(new String[opts.size()]);

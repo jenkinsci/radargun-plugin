@@ -8,7 +8,7 @@ import org.jenkinsci.plugins.radargun.model.NodeScriptConfig;
 
 public abstract class NodeShellScript extends RgShellScript implements NodeScriptConfig {
     
-    protected String masterHost;
+    protected String mainHost;
     protected String outputPath;
     protected boolean tailFollow;
     protected boolean wait;
@@ -20,8 +20,8 @@ public abstract class NodeShellScript extends RgShellScript implements NodeScrip
     public abstract String getScriptName();
     
     @Override
-    public String getMasterHost() {
-        return masterHost;
+    public String getMainHost() {
+        return mainHost;
     }
 
     @Override
@@ -55,8 +55,8 @@ public abstract class NodeShellScript extends RgShellScript implements NodeScrip
     }
 
     @Override
-    public NodeScriptConfig withMasterHost(String masterHostname) {
-        this.masterHost = masterHostname;
+    public NodeScriptConfig withMainHost(String mainHostname) {
+        this.mainHost = mainHostname;
         return this;
     }
 

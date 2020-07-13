@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * List of nodes. The first one is master node, remaining are slave nodes.
+ * List of nodes. The first one is main node, remaining are worker nodes.
  * 
  * @author vjuranek
  *
@@ -13,14 +13,14 @@ public class NodeList {
 
     private final List<Node> nodes;
 
-    public NodeList(Node master) {
+    public NodeList(Node main) {
         nodes = new ArrayList<Node>();
-        nodes.add(master);
+        nodes.add(main);
     }
     
-    public NodeList(Node master, List<Node> slaves) {
-        this(master);
-        nodes.addAll(slaves);
+    public NodeList(Node main, List<Node> workers) {
+        this(main);
+        nodes.addAll(workers);
     }
     
     public List<Node> getNodes() {
@@ -31,23 +31,23 @@ public class NodeList {
         return nodes;
     }
     
-    public MasterNode getMaster() {
-        return (MasterNode)nodes.get(0);
+    public MainNode getMain() {
+        return (MainNode)nodes.get(0);
     }
     
-    public List<Node> getSlaves() {
+    public List<Node> getWorkers() {
         return nodes.subList(1, nodes.size());
     }
     
-    public void addSlave(Node slave) {
-        nodes.add(slave);
+    public void addWorker(Node worker) {
+        nodes.add(worker);
     }
     
     public int getNodeCount() {
         return nodes.size();
     }
     
-    public int getSlaveCount() {
+    public int getWorkerCount() {
         return nodes.size() - 1;
     }
 

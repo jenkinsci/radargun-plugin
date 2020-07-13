@@ -49,8 +49,8 @@ public class Functions {
     
     public static void checkDeprecatedConfigs(NodeList nodes, ConsoleLogger console) {
         for (Node node : nodes.asList()) {
-            if (node.getJvmOptions() != null && !node.isMaster()) {
-                console.logAnnot("[RadarGun] WARN: Setting up JVM options on RG slave node via RG jenkins plugin is deprecated. Please use RG 3 or higher and set up JVM options direcly in RG!");
+            if (node.getJvmOptions() != null && !node.isMain()) {
+                console.logAnnot("[RadarGun] WARN: Setting up JVM options on RG worker node via RG jenkins plugin is deprecated. Please use RG 3 or higher and set up JVM options direcly in RG!");
             }
         }
     }

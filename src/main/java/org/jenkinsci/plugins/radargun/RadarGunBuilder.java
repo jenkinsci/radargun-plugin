@@ -14,12 +14,12 @@ import org.jenkinsci.plugins.radargun.config.RadarGunInstallationWrapper;
 import org.jenkinsci.plugins.radargun.config.RadarGunInstance;
 import org.jenkinsci.plugins.radargun.config.ScenarioSource;
 import org.jenkinsci.plugins.radargun.config.ScriptSource;
-import org.jenkinsci.plugins.radargun.model.RgMasterProcess;
+import org.jenkinsci.plugins.radargun.model.RgMainProcess;
 import org.jenkinsci.plugins.radargun.model.RgProcess;
 import org.jenkinsci.plugins.radargun.model.impl.Node;
 import org.jenkinsci.plugins.radargun.model.impl.NodeList;
-import org.jenkinsci.plugins.radargun.model.impl.RgMasterProcessImpl;
-import org.jenkinsci.plugins.radargun.model.impl.RgSlaveProcessImpl;
+import org.jenkinsci.plugins.radargun.model.impl.RgMainProcessImpl;
+import org.jenkinsci.plugins.radargun.model.impl.RgWorkerProcessImpl;
 import org.jenkinsci.plugins.radargun.util.ConsoleLogger;
 import org.jenkinsci.plugins.radargun.util.Functions;
 import org.jenkinsci.plugins.radargun.util.Resolver;
@@ -144,7 +144,7 @@ public class RadarGunBuilder extends Builder {
         //check deprecated options
         console.logAnnot("[RadarGun] WARN: As of RG plugin release 1.3, \"Start script\" config will be replaced by \"Remote login program\" "
                 + "options with limited config. options. Please make sure you don't use anything special in your start scripts (besides launching "
-                + "the RG master/slaves). If so, please move it into \"Node list\" section, where you can use \"beforeCmds:\" to execute "
+                + "the RG main/workers). If so, please move it into \"Node list\" section, where you can use \"beforeCmds:\" to execute "
                 + "custom commands on remote machines.");
         Functions.checkDeprecatedConfigs(nodes, console);
         
@@ -157,7 +157,7 @@ public class RadarGunBuilder extends Builder {
             for (RgProcess process : rgProcesses) {
                 process.start(executorService);
             }
-            return waitForRgMaster(rgProcesses.get(0));
+            return waitForRgMain(rgProcesses.get(0));
         } catch (Exception e) {
             console.logAnnot("[RadarGun] ERROR: something went wrong, caught exception: " + e.getMessage());
             e.printStackTrace(console.getLogger());
@@ -169,25 +169,25 @@ public class RadarGunBuilder extends Builder {
 
     private List<RgProcess> prepareRgProcesses(RgBuild rgBuild) {
         List<RgProcess> rgProcesses = new ArrayList<RgProcess>(rgBuild.getNodes().getNodeCount());
-        rgProcesses.add(new RgMasterProcessImpl(rgBuild));
-        List<Node> slaves = rgBuild.getNodes().getSlaves();
-        for (int i = 0; i < slaves.size(); i++) {
-            rgProcesses.add(new RgSlaveProcessImpl(rgBuild, i));
+        rgProcesses.add(new RgMainProcessImpl(rgBuild));
+        List<Node> workers = rgBuild.getNodes().getWorkers();
+        for (int i = 0; i < workers.size(); i++) {
+            rgProcesses.add(new RgWorkerProcessImpl(rgBuild, i));
         } 
         return rgProcesses;
     }
     
-    private boolean waitForRgMaster(RgProcess masterProc) throws AbortException {
+    private boolean waitForRgMain(RgProcess mainProc) throws AbortException {
         boolean isSuccess = false;
         try {
-            // wait for master process to be finished, failure of the slave process should be detected by RG master
-            isSuccess = masterProc.waitForResult() == 0;
+            // wait for main process to be finished, failure of the worker process should be detected by RG main
+            isSuccess = mainProc.waitForResult() == 0;
         } catch (InterruptedException e) {
             //TODO actually shouln't fail the build but set it to canceled
             LOGGER.log(Level.INFO, "Stopping the build - build interrupted", e);
             //throw new AbortException(e.getMessage());
         } catch (ExecutionException e) {
-            LOGGER.log(Level.INFO, "Failing the build - getting master result has failed", e);
+            LOGGER.log(Level.INFO, "Failing the build - getting main result has failed", e);
             throw new AbortException(e.getMessage());
         } 
         return isSuccess;
@@ -208,9 +208,9 @@ public class RadarGunBuilder extends Builder {
         
         if (rgProcesses != null) {
             try {
-                ((RgMasterProcess)rgProcesses.get(0)).kill();
+                ((RgMainProcess)rgProcesses.get(0)).kill();
             } catch(Exception e) {
-                LOGGER.log(Level.WARNING, "Killing RG master failed", e);
+                LOGGER.log(Level.WARNING, "Killing RG main failed", e);
             }
         }
     }

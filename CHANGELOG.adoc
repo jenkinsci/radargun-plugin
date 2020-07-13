@@ -21,9 +21,9 @@
 == Release 1.2 (2016-10-19)
 
 * https://github.com/vjuranek/radargun-plugin/issues/58[#58] Added Script source deprecation warning
-* https://github.com/vjuranek/radargun-plugin/issues/52[#52] Removed deprecation from JVM option on master node
+* https://github.com/vjuranek/radargun-plugin/issues/52[#52] Removed deprecation from JVM option on main node
 * https://github.com/vjuranek/radargun-plugin/issues/53[#53] Added action UUID so it can deal with same node names
-* https://github.com/vjuranek/radargun-plugin/issues/54[#54] Nodelist file loads properly on slave executing the build
+* https://github.com/vjuranek/radargun-plugin/issues/54[#54] Nodelist file loads properly on worker executing the build
 * https://github.com/vjuranek/radargun-plugin/issues/51[#51] RG logs are appneded, not 
 * Removed deprecation from ScriptSource
 * https://github.com/vjuranek/radargun-plugin/issues/47[#47] Export Jenkins build number as RG_LOG_ID env. 
@@ -31,7 +31,7 @@
 * https://github.com/vjuranek/radargun-plugin/issues/48[#48] Fixed remote cmd function
 * https://github.com/vjuranek/radargun-plugin/issues/45[#45] Fixed CCE when parsing YAML config
 * https://github.com/vjuranek/radargun-plugin/issues/43[#43] Fixed wrong WS being used - now one from config is used
-* https://github.com/vjuranek/radargun-plugin/issues/42[#42] RG master process is killed on build exit
+* https://github.com/vjuranek/radargun-plugin/issues/42[#42] RG main process is killed on build exit
 * Exception stack trace is printed correctly
 * https://github.com/vjuranek/radargun-plugin/issues/41[#41] Make sure to use hostname instead fqdn which can be null
 * Code refactoring and added process abstraction
@@ -43,9 +43,9 @@
 * https://github.com/vjuranek/radargun-plugin/issues/38[#38] Provide console annotation capabilities
 * https://github.com/vjuranek/radargun-plugin/issues/39[#39] Syntax highlighting
 * https://github.com/vjuranek/radargun-plugin/issues/23[#23] Add support for user 
-* https://github.com/vjuranek/radargun-plugin/issues/35[#35] Wait only for RG master to finish build
+* https://github.com/vjuranek/radargun-plugin/issues/35[#35] Wait only for RG main to finish build
 * https://github.com/vjuranek/radargun-plugin/issues/37[#37] Deprecated jvm options config
-* https://github.com/vjuranek/radargun-plugin/issues/32[#32] https://github.com/vjuranek/radargun-plugin/issues/33[#33] Several RG slaves can run on the same node
+* https://github.com/vjuranek/radargun-plugin/issues/32[#32] https://github.com/vjuranek/radargun-plugin/issues/33[#33] Several RG workers can run on the same node
 * https://github.com/vjuranek/radargun-plugin/issues/36[#36] Check if workspace exists
 * Fixed resolving of workspaces path on remote machines
 * Documentation inprovements

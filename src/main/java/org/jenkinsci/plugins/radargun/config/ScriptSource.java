@@ -7,9 +7,9 @@ import java.util.TreeSet;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.jenkinsci.plugins.radargun.RgBuild;
-import org.jenkinsci.plugins.radargun.model.MasterScriptConfig;
+import org.jenkinsci.plugins.radargun.model.MainScriptConfig;
 import org.jenkinsci.plugins.radargun.model.NodeScriptConfig;
-import org.jenkinsci.plugins.radargun.model.SlaveScriptConfig;
+import org.jenkinsci.plugins.radargun.model.WorkerScriptConfig;
 import org.jenkinsci.plugins.radargun.model.impl.Node;
 import org.jenkinsci.plugins.radargun.util.Functions;
 
@@ -40,9 +40,9 @@ public abstract class ScriptSource implements Describable<ScriptSource> {
     public static final char VAR_SEPARATOR = ' ';
     public static final char CMD_SEPARATOR = ';';
 
-    public abstract String getMasterScriptPath(FilePath workspace) throws InterruptedException, IOException;
+    public abstract String getMainScriptPath(FilePath workspace) throws InterruptedException, IOException;
 
-    public abstract String getSlaveScriptPath(FilePath workspace) throws InterruptedException, IOException;
+    public abstract String getWorkerScriptPath(FilePath workspace) throws InterruptedException, IOException;
 
     public abstract void cleanup() throws InterruptedException, IOException;
 
@@ -67,7 +67,7 @@ public abstract class ScriptSource implements Describable<ScriptSource> {
             nodeScriptConfig.withTailFollow();
         }
         // Always run with wait ("-w") option not to finish immediately once the RG process is started.
-        // Otherwise Jenkins finish the process and kill all background thread, i.e. kill RG master.
+        // Otherwise Jenkins finish the process and kill all background thread, i.e. kill RG main.
         nodeScriptConfig.withWait();
         cmd = (String[]) ArrayUtils.addAll(cmd, nodeScriptConfig.getScriptCmd());
         
@@ -76,17 +76,17 @@ public abstract class ScriptSource implements Describable<ScriptSource> {
         return cmd;
     }
 
-    public String[] getMasterCmdLine(RgBuild rgBuild, MasterScriptConfig masterScriptConfig) throws InterruptedException, IOException {
+    public String[] getMainCmdLine(RgBuild rgBuild, MainScriptConfig mainScriptConfig) throws InterruptedException, IOException {
         FilePath workspace = Functions.getRemoteWorkspace(rgBuild);
-        String masterScriptPath = getMasterScriptPath(workspace);
-        return getNodeCmdLine(masterScriptPath, rgBuild.getNodes().getMaster(), masterScriptConfig, workspace.getRemote(), rgBuild.getBuild().getNumber());
+        String mainScriptPath = getMainScriptPath(workspace);
+        return getNodeCmdLine(mainScriptPath, rgBuild.getNodes().getMain(), mainScriptConfig, workspace.getRemote(), rgBuild.getBuild().getNumber());
     }
 
-    public String[] getSlaveCmdLine(int slaveId, RgBuild rgBuild, SlaveScriptConfig nodeScriptConfig)
+    public String[] getWorkerCmdLine(int workerId, RgBuild rgBuild, WorkerScriptConfig nodeScriptConfig)
             throws InterruptedException, IOException {
         FilePath workspace = Functions.getRemoteWorkspace(rgBuild);
-        String slaveScriptPath = getSlaveScriptPath(workspace);
-        return getNodeCmdLine(slaveScriptPath, rgBuild.getNodes().getSlaves().get(slaveId), nodeScriptConfig, workspace.getRemote(), rgBuild.getBuild().getNumber());
+        String workerScriptPath = getWorkerScriptPath(workspace);
+        return getNodeCmdLine(workerScriptPath, rgBuild.getNodes().getWorkers().get(workerId), nodeScriptConfig, workspace.getRemote(), rgBuild.getBuild().getNumber());
     }
 
     /**

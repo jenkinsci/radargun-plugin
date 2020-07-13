@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.jenkinsci.plugins.radargun.config.NodeConfigParser;
-import org.jenkinsci.plugins.radargun.model.impl.MasterNode;
+import org.jenkinsci.plugins.radargun.model.impl.MainNode;
 import org.jenkinsci.plugins.radargun.model.impl.Node;
 import org.jenkinsci.plugins.radargun.model.impl.NodeList;
 import org.jenkinsci.plugins.radargun.testutil.IOUtils;
@@ -56,20 +56,20 @@ public class IncludeTest {
         NodeList nodes = parser.parseNodeList(sb.toString());
         assertEquals(2, nodes.getNodes().size());
 
-        MasterNode master = (MasterNode) nodes.getMaster();
-        assertEquals("172.12.0.8", master.getFqdn());
-        assertEquals("edg-perf08", master.getName());
-        assertEquals("-server -Xms8g -Xmx8g -XX:+UseLargePages", master.getJvmOptions());
-        Map<String, String> envVars = master.getEnvVars();
+        MainNode main = (MainNode) nodes.getMain();
+        assertEquals("172.12.0.8", main.getFqdn());
+        assertEquals("edg-perf08", main.getName());
+        assertEquals("-server -Xms8g -Xmx8g -XX:+UseLargePages", main.getJvmOptions());
+        Map<String, String> envVars = main.getEnvVars();
         assertNotNull(envVars);
         assertEquals("172.12.0.8", envVars.get("jgroups.udp.mcast_addr"));
         assertEquals("172.12.0.1", envVars.get("infinispan_server1_address"));
 
-        assertEquals(1, nodes.getSlaveCount());
-        Node slave = nodes.getNodes().get(1);
-        assertEquals("edg-perf01", slave.getName());
-        assertNull(slave.getJvmOptions());
-        envVars = slave.getEnvVars();
+        assertEquals(1, nodes.getWorkerCount());
+        Node worker = nodes.getNodes().get(1);
+        assertEquals("edg-perf01", worker.getName());
+        assertNull(worker.getJvmOptions());
+        envVars = worker.getEnvVars();
         assertNotNull(envVars);
         assertEquals("172.12.0.1", envVars.get("jgroups.udp.mcast_addr"));
         assertEquals("172.12.0.1", envVars.get("infinispan_server1_address"));

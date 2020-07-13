@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jenkinsci.plugins.radargun.model.NodeScriptConfig;
-import org.jenkinsci.plugins.radargun.model.impl.MasterShellScript;
+import org.jenkinsci.plugins.radargun.model.impl.MainShellScript;
 import org.jenkinsci.plugins.radargun.model.impl.Node;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,10 +34,10 @@ public class ScriptsourceTest {
 
         node = new Node("testNode", "node.test.org", "-Xms4G -Xmx16G", javaProps, env, null, null, true);
 
-        nodeCfg = new MasterShellScript();
+        nodeCfg = new MainShellScript();
         nodeCfg.withJavaOpts("-Drg_pro1=rgProp1 -Drg_prop2=rgProp2");
-        nodeCfg.withMasterHost("masterNode");
-        nodeCfg.withScriptPath("/opt/radargun/bin/master.sh");
+        nodeCfg.withMainHost("mainNode");
+        nodeCfg.withScriptPath("/opt/radargun/bin/main.sh");
         nodeCfg.withTailFollow();
         nodeCfg.withWait();
 
@@ -60,9 +60,9 @@ public class ScriptsourceTest {
                 "env",
                 "key1=\"value1\" key2=\"\" key3=\"value3\"",
                 "/bin/sh",
-                "/opt/radargun/bin/master.sh",
+                "/opt/radargun/bin/main.sh",
                 "-m",
-                "masterNode",
+                "mainNode",
                 "-t",
                 "-w",
                 "-J",

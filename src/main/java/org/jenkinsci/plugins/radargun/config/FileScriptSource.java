@@ -14,21 +14,21 @@ import org.kohsuke.stapler.DataBoundConstructor;
 @Deprecated
 public class FileScriptSource extends ScriptSource {
 
-    private final String mastertPath;
-    private final String slavePath;
+    private final String maintPath;
+    private final String workerPath;
 
     @DataBoundConstructor
-    public FileScriptSource(String masterPath, String slavePath) {
-        this.mastertPath = masterPath;
-        this.slavePath = slavePath;
+    public FileScriptSource(String mainPath, String workerPath) {
+        this.maintPath = mainPath;
+        this.workerPath = workerPath;
     }
 
-    public String getMasterPath() {
-        return mastertPath;
+    public String getMainPath() {
+        return maintPath;
     }
 
-    public String getSlavePath() {
-        return slavePath;
+    public String getWorkerPath() {
+        return workerPath;
     }
     
     @Override
@@ -37,13 +37,13 @@ public class FileScriptSource extends ScriptSource {
     }
 
     @Override
-    public String getMasterScriptPath(FilePath workspace) {
-        return mastertPath;
+    public String getMainScriptPath(FilePath workspace) {
+        return maintPath;
     }
 
     @Override
-    public String getSlaveScriptPath(FilePath workspace) {
-        return slavePath;
+    public String getWorkerScriptPath(FilePath workspace) {
+        return workerPath;
     }
 
     @Extension

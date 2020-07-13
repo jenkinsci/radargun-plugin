@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a switch in RG shell scripts. Used in classes which describe these script, e.g. {@link MasterScriptConfig}
- * or {@link SlaveScriptConfig}.
+ * Represents a switch in RG shell scripts. Used in classes which describe these script, e.g. {@link MainScriptConfig}
+ * or {@link WorkerScriptConfig}.
  * 
  * @author vjuranek
  * 

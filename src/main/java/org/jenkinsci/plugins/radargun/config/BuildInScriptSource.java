@@ -15,13 +15,13 @@ import org.kohsuke.stapler.DataBoundConstructor;
 public class BuildInScriptSource extends ScriptSource {
 
     private static final String SCRIPT_DIR = "/scripts/";
-    private static final String MASTER_SCRIPT_NAME = "start_master.sh";
-    private static final String SLAVE_SCRIPT_NAME = "start_slave.sh";
+    private static final String MAIN_SCRIPT_NAME = "start_main.sh";
+    private static final String WORKER_SCRIPT_NAME = "start_worker.sh";
 
-    private static final String MASTER_SCRIPT_PATH = BuildInScriptSource.class.getResource(
-            SCRIPT_DIR + MASTER_SCRIPT_NAME).getPath();
-    private static final String SLAVE_SCRIPT_PATH = BuildInScriptSource.class.getResource(
-            SCRIPT_DIR + SLAVE_SCRIPT_NAME).getPath();
+    private static final String MAIN_SCRIPT_PATH = BuildInScriptSource.class.getResource(
+            SCRIPT_DIR + MAIN_SCRIPT_NAME).getPath();
+    private static final String WORKER_SCRIPT_PATH = BuildInScriptSource.class.getResource(
+            SCRIPT_DIR + WORKER_SCRIPT_NAME).getPath();
 
     @DataBoundConstructor
     public BuildInScriptSource() {
@@ -30,13 +30,13 @@ public class BuildInScriptSource extends ScriptSource {
     }
 
     @Override
-    public String getMasterScriptPath(FilePath workspace) {
-        return MASTER_SCRIPT_PATH;
+    public String getMainScriptPath(FilePath workspace) {
+        return MAIN_SCRIPT_PATH;
     }
 
     @Override
-    public String getSlaveScriptPath(FilePath workspace) {
-        return SLAVE_SCRIPT_PATH;
+    public String getWorkerScriptPath(FilePath workspace) {
+        return WORKER_SCRIPT_PATH;
     }
     
     @Override

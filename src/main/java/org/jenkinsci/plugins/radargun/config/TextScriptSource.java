@@ -16,65 +16,65 @@ import org.kohsuke.stapler.DataBoundConstructor;
 @Deprecated
 public class TextScriptSource extends ScriptSource {
 
-    private final String masterScript;
-    private final String slaveScript;
+    private final String mainScript;
+    private final String workerScript;
     
-    private transient FilePath masterScriptPath;
-    private transient FilePath slaveScriptPath;
+    private transient FilePath mainScriptPath;
+    private transient FilePath workerScriptPath;
 
     @DataBoundConstructor
-    public TextScriptSource(String masterScript, String slaveScript) {
-        this.masterScript = masterScript;
-        this.slaveScript = slaveScript;
-        masterScriptPath = null;
-        slaveScriptPath = null;
+    public TextScriptSource(String mainScript, String workerScript) {
+        this.mainScript = mainScript;
+        this.workerScript = workerScript;
+        mainScriptPath = null;
+        workerScriptPath = null;
     }
 
-    public String getMasterScript() {
-        return masterScript;
+    public String getMainScript() {
+        return mainScript;
     }
 
-    public String getSlaveScript() {
-        return slaveScript;
+    public String getWorkerScript() {
+        return workerScript;
     }
     
     @Override
     public void cleanup() throws InterruptedException, IOException {
         try {
-            if(masterScriptPath != null)
-                masterScriptPath.delete();
-            if(slaveScriptPath != null)
-                slaveScriptPath.delete();
+            if(mainScriptPath != null)
+                mainScriptPath.delete();
+            if(workerScriptPath != null)
+                workerScriptPath.delete();
         } finally {
-            masterScriptPath = null;
-            slaveScriptPath = null;
+            mainScriptPath = null;
+            workerScriptPath = null;
         }
     }
 
     @Override
-    public String getMasterScriptPath(FilePath workspace) throws InterruptedException, IOException {
-        if(masterScriptPath == null)
-            masterScriptPath = createMasterScriptFile(workspace);
-        return masterScriptPath.getRemote();
+    public String getMainScriptPath(FilePath workspace) throws InterruptedException, IOException {
+        if(mainScriptPath == null)
+            mainScriptPath = createMainScriptFile(workspace);
+        return mainScriptPath.getRemote();
     }
 
     @Override
-    public String getSlaveScriptPath(FilePath workspace) throws InterruptedException, IOException {
-        if(slaveScriptPath == null)
-            slaveScriptPath = createSlaveScriptPath(workspace); 
-        return slaveScriptPath.getRemote();
+    public String getWorkerScriptPath(FilePath workspace) throws InterruptedException, IOException {
+        if(workerScriptPath == null)
+            workerScriptPath = createWorkerScriptPath(workspace); 
+        return workerScriptPath.getRemote();
     }
     
-    private FilePath createMasterScriptFile(FilePath workspace) throws InterruptedException, IOException {
-        FilePath master =  workspace.createTextTempFile("radargun_master", ".sh", masterScript, true);
-        master.chmod(0777);
-        return master;
+    private FilePath createMainScriptFile(FilePath workspace) throws InterruptedException, IOException {
+        FilePath main =  workspace.createTextTempFile("radargun_main", ".sh", mainScript, true);
+        main.chmod(0777);
+        return main;
     }
     
-    private FilePath createSlaveScriptPath(FilePath workspace) throws InterruptedException, IOException {
-        FilePath slave = workspace.createTextTempFile("radargun_slave", ".sh", slaveScript, true);
-        slave.chmod(0777);
-        return slave;
+    private FilePath createWorkerScriptPath(FilePath workspace) throws InterruptedException, IOException {
+        FilePath worker = workspace.createTextTempFile("radargun_worker", ".sh", workerScript, true);
+        worker.chmod(0777);
+        return worker;
     }
 
     @Extension
