@@ -1,9 +1,8 @@
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
-    xmlns:f="/lib/form">
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:f="/lib/form">
 
     <j:set var="currInstall" value="${instance.radarGunInstance}" />
-    <f:dropdownList name="radarGunInstance" title="RadarGun instance" description="RadarGun installation to be used">
+    <f:dropdownList name="radarGunInstance" title="RadarGun instance" help="${descriptor.getHelpFile('radarGunInstance')}">
         <j:forEach var="desc" items="${descriptor.rgInstances}" varStatus="loop">
             <f:dropdownListBlock title="${desc.displayName}" value="${loop.index}"
                 selected="${desc==currInstall.descriptor}" staplerClass="${desc.clazz.name}">
@@ -14,7 +13,7 @@
     </f:dropdownList>
 
     <j:set var="currScenario" value="${instance.scenarioSource}" />
-    <f:dropdownList name="scenarioSource" title="RadarGun scenario" description="RadarGun scenarion to be executed">
+    <f:dropdownList name="scenarioSource" title="RadarGun scenario" help="${descriptor.getHelpFile('scenarioSource')}">
         <j:forEach var="desc" items="${descriptor.scenarioSources}" varStatus="loop">
             <f:dropdownListBlock title="${desc.displayName}" value="${loop.index}"
                 selected="${desc==currScenario.descriptor}" staplerClass="${desc.clazz.name}">
@@ -25,7 +24,7 @@
     </f:dropdownList>
 
     <j:set var="currNode" value="${instance.nodeSource}" />
-    <f:dropdownList name="nodeSource" title="Node list" description="List of the nodes where RadarGun will run">
+    <f:dropdownList name="nodeSource" title="Node list" help="${descriptor.getHelpFile('nodeSource')}">
         <j:forEach var="desc" items="${descriptor.nodeSources}" varStatus="loop">
             <f:dropdownListBlock title="${desc.displayName}" value="${loop.index}" selected="${desc==currNode.descriptor}"
                 staplerClass="${desc.clazz.name}">
@@ -40,8 +39,7 @@
     </f:entry>
 
     <j:set var="currScript" value="${instance.scriptSource}" />
-    <f:dropdownList name="scriptSource" title="Start script"
-        description="Script which will be used for staring appropriate processes on nodes">
+    <f:dropdownList name="scriptSource" title="Start script" help="${descriptor.getHelpFile('scriptSource')}">
         <j:forEach var="desc" items="${descriptor.scriptSources}" varStatus="loop">
             <f:dropdownListBlock title="${desc.displayName}" value="${loop.index}" selected="${desc==currScript.descriptor}"
                 staplerClass="${desc.clazz.name}">

@@ -270,13 +270,6 @@ public class RadarGunBuilder extends Builder {
             return "Run RadarGun";
         }
 
-        @Override
-        public boolean configure(StaplerRequest req, JSONObject formData) throws FormException {
-            req.bindJSON(this, formData);
-            save();
-            return super.configure(req, formData);
-        }
-
         public ListBoxModel doFillRadarGunNameItems() {
             ListBoxModel lb = new ListBoxModel();
             for (RadarGunInstallation rgi : installations) {
