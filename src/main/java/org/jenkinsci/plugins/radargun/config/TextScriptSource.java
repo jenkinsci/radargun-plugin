@@ -66,12 +66,18 @@ public class TextScriptSource extends ScriptSource {
     }
     
     private FilePath createMainScriptFile(FilePath workspace) throws InterruptedException, IOException {
+        if (mainScript == null) {
+            throw new IllegalStateException("Please check the 'Main start script' config in the job.");
+        }
         FilePath main =  workspace.createTextTempFile("radargun_main", ".sh", mainScript, true);
         main.chmod(0777);
         return main;
     }
     
     private FilePath createWorkerScriptPath(FilePath workspace) throws InterruptedException, IOException {
+        if (workerScript == null) {
+            throw new IllegalStateException("Please check the 'Worker start script' config in the job.");
+        }
         FilePath worker = workspace.createTextTempFile("radargun_worker", ".sh", workerScript, true);
         worker.chmod(0777);
         return worker;
