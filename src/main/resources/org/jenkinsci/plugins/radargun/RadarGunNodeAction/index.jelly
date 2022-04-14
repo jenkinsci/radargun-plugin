@@ -8,7 +8,7 @@
             <h1>RadarGun: output from node ${it.hostname}</h1>
             <l:rightspace>
                 <a href="consoleText">
-                    <img src="${imagesURL}/24x24/document.gif" alt="" />
+                    <l:icon class="icon-document icon-md" />
                     View as plain text
                 </a>
             </l:rightspace>
