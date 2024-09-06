@@ -21,6 +21,10 @@
             <id>dlovison</id>
             <name>Diego Lovison</name>
         </developer>
+        <developer>
+            <id>amanukya</id>
+            <name>Anna Manukyan</name>
+        </developer>
     </developers>
 
     <!-- required for release -->

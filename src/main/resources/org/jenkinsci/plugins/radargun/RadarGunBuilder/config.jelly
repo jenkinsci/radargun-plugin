@@ -54,6 +54,10 @@
             <f:textbox />
         </f:entry>
     
+        <f:entry title="Private key path for remote login" field="privateKeyPath" description="Path to private key to be used for remote connection to RG nodes">
+            <f:textbox />
+        </f:entry>
+
         <f:entry title="Workspace path" field="workspacePath" description="Path to working directory on main and workers">
             <f:textbox />
         </f:entry>

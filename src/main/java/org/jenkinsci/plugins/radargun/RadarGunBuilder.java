@@ -51,6 +51,7 @@ public class RadarGunBuilder extends Builder {
     private final ScriptSource scriptSource;
     private String remoteLoginProgram; //cannot be final as we re-assign it in readResolve() it it's null for backward compatibility reasons
     private final String remoteLogin;
+    private final String privateKeyPath;
     private final String workspacePath;
     private final String pluginPath;
     private final String pluginConfigPath;
@@ -58,7 +59,7 @@ public class RadarGunBuilder extends Builder {
 
     @DataBoundConstructor
     public RadarGunBuilder(RadarGunInstance radarGunInstance, ScenarioSource scenarioSource, NodeConfigSource nodeSource,
-            ScriptSource scriptSource, String remoteLoginProgram, String remoteLogin, String workspacePath, String pluginPath, String pluginConfigPath,
+            ScriptSource scriptSource, String remoteLoginProgram, String remoteLogin, String privateKeyPath, String workspacePath, String pluginPath, String pluginConfigPath,
             String reporterPath) {
         this.radarGunInstance = radarGunInstance;
         this.scenarioSource = scenarioSource;
@@ -66,6 +67,7 @@ public class RadarGunBuilder extends Builder {
         this.scriptSource = scriptSource;
         this.remoteLoginProgram = remoteLoginProgram;
         this.remoteLogin = remoteLogin;
+        this.privateKeyPath = privateKeyPath;
         this.workspacePath = Util.fixEmpty(workspacePath);
         this.pluginPath = pluginPath;
         this.pluginConfigPath = pluginConfigPath;
@@ -110,6 +112,10 @@ public class RadarGunBuilder extends Builder {
         return remoteLogin;
     }
     
+    public String getPrivateKeyPath() {
+        return privateKeyPath;
+    }
+
     public String getWorkspacePath() {
         return workspacePath;
     }
