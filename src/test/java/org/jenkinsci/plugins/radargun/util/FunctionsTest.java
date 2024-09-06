@@ -77,7 +77,7 @@ public class FunctionsTest {
     
     @Test
     public void testBuildRemoteCmd() {
-        RadarGunBuilder sshBuilder = new RadarGunBuilder(new RadarGunInstallationWrapper("testRGInstall"), null, null, null, "SSH", "  ", null, null, null, null);
+        RadarGunBuilder sshBuilder = new RadarGunBuilder(new RadarGunInstallationWrapper("testRGInstall"), null, null, null, "SSH", "  ", null, null, null, null, null);
         RgBuild rgBuild = new RgBuild(sshBuilder, null, null, null, null);
         String[] remoteSshCmd = Functions.buildRemoteCmd(rgBuild, "127.0.0.1", new String[] {"echo", "'test'"});
         
@@ -85,9 +85,25 @@ public class FunctionsTest {
         for (int i = 0; i < sshCmds.length; i++) {
             assertEquals(sshCmds[i], remoteSshCmd[i]);
         }
-        assertEquals("127.0.0.1", remoteSshCmd[sshCmds.length]);
-        assertEquals("echo", remoteSshCmd[sshCmds.length + 1]);
-        assertEquals("'test'", remoteSshCmd[sshCmds.length + 2]);
+        assertEquals("127.0.0.1", remoteSshCmd[sshCmds.length + 1]);
+        assertEquals("echo", remoteSshCmd[sshCmds.length + 2]);
+        assertEquals("'test'", remoteSshCmd[sshCmds.length + 3]);
+    }
+
+    @Test
+    public void testBuildRemoteCmdWithPrivateKeyPath() {
+        RadarGunBuilder sshBuilder = new RadarGunBuilder(new RadarGunInstallationWrapper("testRGInstall"), null, null, null, "SSH", "  ", "/root/.ssh/id_rsa", null, null, null, null);
+        RgBuild rgBuild = new RgBuild(sshBuilder, null, null, null, null);
+        String[] remoteSshCmd = Functions.buildRemoteCmd(rgBuild, "127.0.0.1", new String[] {"echo", "'test'"});
+
+        String[] sshCmds = RemoteLoginProgram.SSH.getCmd();
+        for (int i = 0; i < sshCmds.length; i++) {
+            assertEquals(sshCmds[i], remoteSshCmd[i]);
+        }
+        assertEquals("-i /root/.ssh/id_rsa", remoteSshCmd[sshCmds.length]);
+        assertEquals("127.0.0.1", remoteSshCmd[sshCmds.length + 1]);
+        assertEquals("echo", remoteSshCmd[sshCmds.length + 2]);
+        assertEquals("'test'", remoteSshCmd[sshCmds.length + 3]);
     }
     
     @Test

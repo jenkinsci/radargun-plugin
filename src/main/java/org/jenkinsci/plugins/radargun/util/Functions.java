@@ -93,12 +93,15 @@ public class Functions {
     public static String[] buildRemoteCmd(RgBuild rgBuild, String nodeHostname, String[] localCmd) {
         String[] remoteLoginCmd = RemoteLoginProgram.valueOf(rgBuild.getRgBuilder().getRemoteLoginProgram()).getCmd();
         String remoteLoginCfg = rgBuild.getRgBuilder().getRemoteLogin();
-        String remoteLogin = isNullOrEmpty(remoteLoginCfg) ? "" : rgBuild.getRgBuilder().getRemoteLogin() + "@";
+        String remoteLoginPrivateKeyPath = rgBuild.getRgBuilder().getPrivateKeyPath();
+        String privateKeyCommand = isNullOrEmpty(remoteLoginPrivateKeyPath) ? "" : "-i " + remoteLoginPrivateKeyPath;
+        String remoteLogin = isNullOrEmpty(remoteLoginCfg) ? "" : remoteLoginCfg + "@";
+        remoteLoginCmd = (String[]) ArrayUtils.addAll(remoteLoginCmd, new String[] { privateKeyCommand });
         remoteLoginCmd = (String[]) ArrayUtils.addAll(remoteLoginCmd, new String[] {remoteLogin + nodeHostname});
         String[] cmd = (String[]) ArrayUtils.addAll(remoteLoginCmd, localCmd);
         return cmd;
     }
-    
+
     public static boolean isNullOrEmpty(String str) {
         return ((str == null) || (str.trim().isEmpty()));
     }
