@@ -7,7 +7,7 @@
     </parent>
 
     <artifactId>radargun</artifactId>
-    <version>1.22</version>
+    <version>1.22-SNAPSHOT</version>
     <packaging>hpi</packaging>
     <name>RadarGun</name>
     <url>https://github.com/jenkinsci/radargun-plugin</url>
@@ -32,7 +32,7 @@
         <connection>scm:git:git://github.com/jenkinsci/radargun-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:jenkinsci/radargun-plugin.git</developerConnection>
         <url>https://github.com/jenkinsci/radargun-plugin</url>
-        <tag>radargun-1.22</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <licenses>
