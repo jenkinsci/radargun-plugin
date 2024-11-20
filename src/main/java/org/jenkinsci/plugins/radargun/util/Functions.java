@@ -94,9 +94,11 @@ public class Functions {
         String[] remoteLoginCmd = RemoteLoginProgram.valueOf(rgBuild.getRgBuilder().getRemoteLoginProgram()).getCmd();
         String remoteLoginCfg = rgBuild.getRgBuilder().getRemoteLogin();
         String remoteLoginPrivateKeyPath = rgBuild.getRgBuilder().getPrivateKeyPath();
-        String privateKeyCommand = isNullOrEmpty(remoteLoginPrivateKeyPath) ? "" : "-i " + remoteLoginPrivateKeyPath;
         String remoteLogin = isNullOrEmpty(remoteLoginCfg) ? "" : remoteLoginCfg + "@";
-        remoteLoginCmd = (String[]) ArrayUtils.addAll(remoteLoginCmd, new String[] { privateKeyCommand });
+
+        if (!isNullOrEmpty(remoteLoginPrivateKeyPath)) {
+            remoteLoginCmd = (String[]) ArrayUtils.addAll(remoteLoginCmd, new String[] { "-i", remoteLoginPrivateKeyPath });
+        }
         remoteLoginCmd = (String[]) ArrayUtils.addAll(remoteLoginCmd, new String[] {remoteLogin + nodeHostname});
         String[] cmd = (String[]) ArrayUtils.addAll(remoteLoginCmd, localCmd);
         return cmd;

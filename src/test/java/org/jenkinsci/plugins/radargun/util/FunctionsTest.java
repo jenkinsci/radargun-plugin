@@ -85,9 +85,9 @@ public class FunctionsTest {
         for (int i = 0; i < sshCmds.length; i++) {
             assertEquals(sshCmds[i], remoteSshCmd[i]);
         }
-        assertEquals("127.0.0.1", remoteSshCmd[sshCmds.length + 1]);
-        assertEquals("echo", remoteSshCmd[sshCmds.length + 2]);
-        assertEquals("'test'", remoteSshCmd[sshCmds.length + 3]);
+        assertEquals("127.0.0.1", remoteSshCmd[sshCmds.length + 0]);
+        assertEquals("echo", remoteSshCmd[sshCmds.length + 1]);
+        assertEquals("'test'", remoteSshCmd[sshCmds.length + 2]);
     }
 
     @Test
@@ -100,10 +100,11 @@ public class FunctionsTest {
         for (int i = 0; i < sshCmds.length; i++) {
             assertEquals(sshCmds[i], remoteSshCmd[i]);
         }
-        assertEquals("-i /root/.ssh/id_rsa", remoteSshCmd[sshCmds.length]);
-        assertEquals("127.0.0.1", remoteSshCmd[sshCmds.length + 1]);
-        assertEquals("echo", remoteSshCmd[sshCmds.length + 2]);
-        assertEquals("'test'", remoteSshCmd[sshCmds.length + 3]);
+        assertEquals("-i", remoteSshCmd[sshCmds.length]);
+        assertEquals("/root/.ssh/id_rsa", remoteSshCmd[sshCmds.length+1]);
+        assertEquals("127.0.0.1", remoteSshCmd[sshCmds.length + 2]);
+        assertEquals("echo", remoteSshCmd[sshCmds.length + 3]);
+        assertEquals("'test'", remoteSshCmd[sshCmds.length + 4]);
     }
     
     @Test
