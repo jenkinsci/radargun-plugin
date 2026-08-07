@@ -3,8 +3,8 @@ package org.jenkinsci.plugins.radargun.model.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.jenkinsci.plugins.radargun.model.WorkerScriptConfig;
+import org.jenkinsci.plugins.radargun.util.Functions;
 
 /**
  * Represents RG worker script, i.e. $RG_HOME/bin/worker.sh
@@ -48,7 +48,7 @@ public class WorkerShellScript extends NodeShellScript implements WorkerScriptCo
 
     @Override
     public String[] getScriptCmd() {
-        return (String[])ArrayUtils.addAll(super.getScriptCmd(), optionToArray());
+        return Functions.concat(super.getScriptCmd(), optionToArray());
     }
     
     private String[] optionToArray() {

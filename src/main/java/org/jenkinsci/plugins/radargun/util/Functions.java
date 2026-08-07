@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.jenkinsci.plugins.radargun.RadarGunBuilder;
 import org.jenkinsci.plugins.radargun.RadarGunInstallation;
 import org.jenkinsci.plugins.radargun.RemoteLoginProgram;
@@ -59,10 +58,10 @@ public class Functions {
         String cmdSepStr = Character.toString(cmdSep);
         String[] cmds = sepCharBefore ? new String[] {cmdSepStr} : new String[] {};
         for (String cmd : userCmds) {
-            cmds = (String[])ArrayUtils.addAll(cmds, cmd.split(" "));
-            cmds = (String[])ArrayUtils.add(cmds, cmdSepStr);
+            cmds = concat(cmds, cmd.split(" "));
+            cmds = append(cmds, cmdSepStr);
         }
-        cmds = sepCharBefore ? (String[])ArrayUtils.remove(cmds, cmds.length - 1) : cmds; 
+        cmds = sepCharBefore ? removeAt(cmds, cmds.length - 1) : cmds; 
         return cmds;
     }
     
@@ -97,10 +96,10 @@ public class Functions {
         String remoteLogin = isNullOrEmpty(remoteLoginCfg) ? "" : remoteLoginCfg + "@";
 
         if (!isNullOrEmpty(remoteLoginPrivateKeyPath)) {
-            remoteLoginCmd = (String[]) ArrayUtils.addAll(remoteLoginCmd, new String[] { "-i", remoteLoginPrivateKeyPath });
+            remoteLoginCmd = concat(remoteLoginCmd, new String[] { "-i", remoteLoginPrivateKeyPath });
         }
-        remoteLoginCmd = (String[]) ArrayUtils.addAll(remoteLoginCmd, new String[] {remoteLogin + nodeHostname});
-        String[] cmd = (String[]) ArrayUtils.addAll(remoteLoginCmd, localCmd);
+        remoteLoginCmd = concat(remoteLoginCmd, new String[] {remoteLogin + nodeHostname});
+        String[] cmd = concat(remoteLoginCmd, localCmd);
         return cmd;
     }
 
@@ -113,4 +112,32 @@ public class Functions {
         ? Jenkins.getInstance().getDescriptorByType(RadarGunBuilder.DescriptorImpl.class).getInstallation(((RadarGunInstallationWrapper)radarGunInstance).getRadarGunName())
         : new RadarGunInstallation(Resolver.doResolve(radarGunInstance.getName()), Resolver.doResolve(((RadarGunCustomInstallation)radarGunInstance).getHome()),  null);
     }
+
+    /** Concatenates two String arrays, replacing Commons Lang's {@code ArrayUtils.addAll}. */
+    public static String[] concat(String[] first, String[] second) {
+        if (first == null) {
+            return second == null ? null : second.clone();
+        }
+        if (second == null) {
+            return first.clone();
+        }
+        String[] result = java.util.Arrays.copyOf(first, first.length + second.length);
+        System.arraycopy(second, 0, result, first.length, second.length);
+        return result;
+    }
+
+    /** Appends one element, replacing Commons Lang's {@code ArrayUtils.add}. */
+    public static String[] append(String[] array, String element) {
+        String[] result = java.util.Arrays.copyOf(array, array.length + 1);
+        result[array.length] = element;
+        return result;
+    }
+
+    /** Removes the element at {@code index}, replacing Commons Lang's {@code ArrayUtils.remove}. */
+    public static String[] removeAt(String[] array, int index) {
+        String[] result = java.util.Arrays.copyOf(array, array.length - 1);
+        System.arraycopy(array, index + 1, result, index, array.length - index - 1);
+        return result;
+    }
+
 }

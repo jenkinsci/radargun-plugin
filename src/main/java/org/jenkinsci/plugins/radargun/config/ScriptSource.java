@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeSet;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.jenkinsci.plugins.radargun.RgBuild;
 import org.jenkinsci.plugins.radargun.model.MainScriptConfig;
 import org.jenkinsci.plugins.radargun.model.NodeScriptConfig;
@@ -55,12 +54,12 @@ public abstract class ScriptSource implements Describable<ScriptSource> {
         String[] cmd = new String[] { nodeScriptPath, node.getHostname(), CD_CMD, workspace + CMD_SEPARATOR, EXPORT_CMD, RG_SUFFIX_ENV_VAR + ENV_KEY_VAL_SEPARATOR + String.valueOf(buildId) + CMD_SEPARATOR };
         
         //set up user init commands
-        cmd = node.getBeforeCmds() == null ? cmd : (String[])ArrayUtils.addAll(cmd, Functions.userCmdsToArray(node.getBeforeCmds(), CMD_SEPARATOR, false));
+        cmd = node.getBeforeCmds() == null ? cmd : Functions.concat(cmd, Functions.userCmdsToArray(node.getBeforeCmds(), CMD_SEPARATOR, false));
         
         //eventually setup environment where RG scripts should be executed
         //env cmd takes as a parameter command which needs to be executed in given env, so this needs to be right before RG script is added 
         //into cmd array
-        cmd = node.getEnvVars() == null ? cmd : (String[]) ArrayUtils.addAll(cmd, new String[] { ENV_CMD, prepareEnvVars(node.getEnvVars()) });
+        cmd = node.getEnvVars() == null ? cmd : Functions.concat(cmd, new String[] { ENV_CMD, prepareEnvVars(node.getEnvVars()) });
         
         // Check whether to gather logs, i.e. run with "tail" option ("-t") 
         if (node.getGatherLogs()) {
@@ -69,10 +68,10 @@ public abstract class ScriptSource implements Describable<ScriptSource> {
         // Always run with wait ("-w") option not to finish immediately once the RG process is started.
         // Otherwise Jenkins finish the process and kill all background thread, i.e. kill RG main.
         nodeScriptConfig.withWait();
-        cmd = (String[]) ArrayUtils.addAll(cmd, nodeScriptConfig.getScriptCmd());
+        cmd = Functions.concat(cmd, nodeScriptConfig.getScriptCmd());
         
         //set up user after commands
-        cmd = node.getAfterCmds() == null ? cmd : (String[])ArrayUtils.addAll(cmd, Functions.userCmdsToArray(node.getAfterCmds(), CMD_SEPARATOR, true));
+        cmd = node.getAfterCmds() == null ? cmd : Functions.concat(cmd, Functions.userCmdsToArray(node.getAfterCmds(), CMD_SEPARATOR, true));
         return cmd;
     }
 
