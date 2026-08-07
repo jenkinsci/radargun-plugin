@@ -3,8 +3,8 @@ package org.jenkinsci.plugins.radargun.model.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.jenkinsci.plugins.radargun.model.MainScriptConfig;
+import org.jenkinsci.plugins.radargun.util.Functions;
 
 /**
  * Represent RG main shell script, i.e. $RG_HOME/bin/msater.sh
@@ -60,7 +60,7 @@ public class MainShellScript extends NodeShellScript implements MainScriptConfig
 
     @Override
     public String[] getScriptCmd() {
-        return (String[])ArrayUtils.addAll(super.getScriptCmd(), optionToArray());
+        return Functions.concat(super.getScriptCmd(), optionToArray());
     }
     
     private String[] optionToArray() {

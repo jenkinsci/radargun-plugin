@@ -3,8 +3,8 @@ package org.jenkinsci.plugins.radargun.model.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.jenkinsci.plugins.radargun.model.NodeScriptConfig;
+import org.jenkinsci.plugins.radargun.util.Functions;
 
 public abstract class NodeShellScript extends RgShellScript implements NodeScriptConfig {
     
@@ -98,7 +98,7 @@ public abstract class NodeShellScript extends RgShellScript implements NodeScrip
 
     @Override
     public String[] getScriptCmd() {
-        return (String[])ArrayUtils.addAll(super.getScriptCmd(), optionToArray());
+        return Functions.concat(super.getScriptCmd(), optionToArray());
     }
     
     private String[] optionToArray() {

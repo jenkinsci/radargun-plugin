@@ -1,5 +1,6 @@
 package org.jenkinsci.plugins.radargun.util;
 
+import org.jenkinsci.plugins.radargun.util.Functions;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

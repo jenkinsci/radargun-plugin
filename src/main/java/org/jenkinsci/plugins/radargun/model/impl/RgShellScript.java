@@ -3,6 +3,7 @@ package org.jenkinsci.plugins.radargun.model.impl;
 import java.io.File;
 
 import org.jenkinsci.plugins.radargun.model.RgScriptConfig;
+import org.jenkinsci.plugins.radargun.util.Functions;
 
 /**
  * RG shell script base.
@@ -38,7 +39,7 @@ public abstract class RgShellScript implements RgScriptConfig {
     
     @Override
     public String[] getScriptCmd() {
-        //return (String[])ArrayUtils.add(getInterpreter(), getScriptPath());
+        //return Functions.append(getInterpreter(), getScriptPath());
         return new String[] {SHELL_EXEC, getScriptPath()};
     }
     
